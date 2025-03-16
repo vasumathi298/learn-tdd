@@ -49,7 +49,11 @@ should be placed in `tests/authorService.test.ts`.
 
 Briefly explain a limitation of the tests in `tests/authorSchema.test.ts` in the space below.
 
+One thing we can improve is how we verify sorting in our tests. Right now, we are relying on localeCompare, which directly ties our test to a specific implementation. If we ever tweak the sorting logic say, to make it case-insensitive or handle special characters differently, our test might break even if the functionality still works as expected. Instead, we should focus on testing the expected order of results rather than how they’re sorted internally.
 
+Another gap in our testing is database interactions. We are mocking Author.getAllAuthors, which is great for isolating unit tests, but it does not actually confirm that our database integration works correctly. A separate set of integration tests would help ensure everything functions properly end-to-end.
+
+Also, while we are using mocks, we are not verifying how they are called. For an instance, we mock Author.getAllAuthors, but we do not check if it is called with the right parameters. Adding Jest spies—like expect(mockFn).toHaveBeenCalledWith(...), would give us more confidence that our application is behaving as expected.
 
 ## Part 3
 
